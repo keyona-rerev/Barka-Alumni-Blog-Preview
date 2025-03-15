@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building Your Supplier Management Foundation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-top: 60px; /* Space for fixed nav */
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 30px;
+            scroll-margin-top: 70px; /* For smooth scrolling with fixed header */
+        }
+        h3 {
+            color: #16a085;
+            margin-top: 25px;
+        }
+        .intro-box {
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .callout {
+            background-color: #e8f4fc;
+            border-left: 4px solid #16a085;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .warning {
+            background-color: #fff3e0;
+            border-left: 4px solid #f39c12;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .decision-guide {
+            background-color: #e8f8f5;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .section-nav {
+            background-color: #f5f5f5;
+            padding: 15px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+        .section-nav ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+        .tool-comparison {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .tool-card {
+            flex: 1;
+            min-width: 250px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+        }
+        .tool-card h4 {
+            margin-top: 0;
+            color: #3498db;
+        }
+        
+        /* New styles for sticky navigation */
+        .sticky-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #2c3e50;
+            color: white;
+            padding: 10px 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .sticky-nav-container {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .sticky-nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        .sticky-nav a:hover {
+            color: #3498db;
+        }
+        
+        /* Series visualization styles */
+        .series-container {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        .series-box {
+            flex: 1;
+            min-width: 120px;
+            height: 100px;
+            margin: 10px;
+            background-color: #f5f5f5;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            transition: all 0.3s;
+        }
+        .series-box.active {
+            background-color: #3498db;
+            color: white;
+            border-color: #2980b9;
+            transform: scale(1.05);
+        }
+        .series-box:not(.active) {
+            opacity: 0.7;
+        }
+        .series-box:not(.active):hover {
+            opacity: 0.9;
+        }
+        .series-arrow {
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #3498db;
+            font-size: 20px;
+            z-index: 1;
+        }
+        
+        /* Visual process steps */
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        .process-step {
+            flex: 1;
+            min-width: 150px;
+            margin: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 50%;
+            line-height: 30px;
+            margin-bottom: 10px;
+        }
+        
+        /* KPI visualization */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .kpi-card {
+            background-color: #f9f9f9;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            border-radius: 0 5px 5px 0;
+        }
+        .kpi-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sticky Navigation -->
+    <div class="sticky-nav">
+        <div class="sticky-nav-container">
+            <a href="#intro">Introduction</a>
+            <a href="#data-needs">Data Needs</a>
+            <a href="#choose-tool">Choose Tools</a>
+            <a href="#setup">System Setup</a>
+            <a href="#mobile">Mobile Access</a>
+            <a href="#implementation">Implementation</a>
+            <a href="#decisions">Decision Making</a>
+            <a href="#kpis">KPIs</a>
+        </div>
+    </div>
+
+    <h1>Building Your Supplier Management Foundation</h1>
+    
+    <!-- Series Visualization -->
+    <p>This tutorial is the foundation of our complete Digital Operations Pipeline for West African entrepreneurs.</p>
+    
+    <div class="series-container">
+        <div class="series-box active">
+            1. Supplier Management Foundation
+            <span class="series-arrow">→</span>
+        </div>
+        <div class="series-box">
+            2. WhatsApp Business Integration
+            <span class="series-arrow">→</span>
+        </div>
+        <div class="series-box">
+            3. SMS Updates with Africa's Talking
+            <span class="series-arrow">→</span>
+        </div>
+        <div class="series-box">
+            4. Quality Control System
+            <span class="series-arrow">→</span>
+        </div>
+        <div class="series-box">
+            5. Payment Systems Integration
+            <span class="series-arrow">→</span>
+        </div>
+        <div class="series-box">
+            6. Supplier Dashboards
+        </div>
+    </div>
+    
+    <p>Each component builds on this foundation, creating a complete digital system to manage your business operations efficiently.</p>
+    
+    <div class="section-nav" id="intro">
+        <h3>In This Tutorial:</h3>
+        <ul>
+            <li>Why supplier management is critical for West African SMBs</li>
+            <li>Setting up your supplier tracking system (with options for any budget)</li>
+            <li>Mobile-optimized data collection techniques</li>
+            <li>Training your team effectively</li>
+            <li>Making data-driven decisions with supplier information</li>
+            <li>Preparation for future digital operations components</li>
+        </ul>
+    </div>
+
+    <div class="intro-box">
+        <h2>Introduction: Why Supplier Management Matters</h2>
+        <p>For West African entrepreneurs running beauty product businesses or agricultural aggregation operations, your suppliers are the foundation of your success. This tutorial helps you build a digital system to track, manage, and optimize your supplier relationships—without expensive software or technical complexity.</p>
+        
+        <h3>Business Outcomes You'll Achieve:</h3>
+        <ul>
+            <li><strong>Better supplier relationships</strong> through consistent communication and tracking</li>
+            <li><strong>Cost optimization</strong> by identifying your best-performing suppliers</li>
+            <li><strong>Quality control</strong> through standardized tracking and evaluation</li>
+            <li><strong>Scalability</strong> to manage more suppliers without additional staff</li>
+            <li><strong>Stronger negotiating position</strong> with data-backed insights</li>
+        </ul>
+    </div>
+
+    <h2 id="data-needs">1. Understanding Your Supplier Data Needs</h2>
+    
+    <h3>Key Data Points for Different Business Types</h3>
+    <table>
+        <tr>
+            <th>Business Type</th>
+            <th>Supplier Type</th>
+            <th>Essential Data Points</th>
+            <th>Decision Support</th>
+        </tr>
+        <tr>
+            <td rowspan="2">Beauty Products</td>
+            <td>Raw Materials</td>
+            <td>
+                - Purchase price<br>
+                - Quality metrics<br>
+                - Delivery time<br>
+                - Quantity available<br>
+                - Minimum order quantity
+            </td>
+            <td>
+                - Inventory planning<br>
+                - Production scheduling<br>
+                - Cost forecasting
+            </td>
+        </tr>
+        <tr>
+            <td>Packaging</td>
+            <td>
+                - Unit cost<br>
+                - Lead time<br>
+                - Quality standards<br>
+                - Design compatibility
+            </td>
+            <td>
+                - Budget allocation<br>
+                - Production timing<br>
+                - Brand consistency
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="2">Agricultural Aggregator</td>
+            <td>Farmers</td>
+            <td>
+                - Harvest quantity<br>
+                - Quality grade<br>
+                - Payment history<br>
+                - Location<br>
+                - Harvest dates
+            </td>
+            <td>
+                - Collection scheduling<br>
+                - Payment processing<br>
+                - Quality forecasting
+            </td>
+        </tr>
+        <tr>
+            <td>Transportation</td>
+            <td>
+                - Cost per trip<br>
+                - Capacity<br>
+                - Reliability<br>
+                - Route details
+            </td>
+            <td>
+                - Logistics planning<br>
+                - Cost management<br>
+                - Delivery timing
+            </td>
+        </tr>
+    </table>
+
+    <div class="callout">
+        <h4>Reflection Question</h4>
+        <p>Before proceeding: Which supplier relationships are most critical to your business success? Which supplier issues most frequently cause problems? Your answers will help you prioritize what data to track.</p>
+    </div>
+
+    <h2 id="choose-tool">2. Choosing Your Digital Tool</h2>
+    
+    <div class="decision-guide">
+        <h3>Finding Your Best Fit</h3>
+        <p>There is no one-size-fits-all solution. The right tool depends on your budget, technical comfort, team size, and growth plans. Here are your main options:</p>
+    </div>
+    
+    <div class="tool-comparison">
+        <div class="tool-card">
+            <h4>Google Sheets (Free)</h4>
+            <p><strong>Best for:</strong> Startups, small operations, businesses with limited budget</p>
+            <p><strong>Advantages:</strong></p>
+            <ul>
+                <li>No cost to get started</li>
+                <li>Accessible anywhere with internet</li>
+                <li>Collaboration features built-in</li>
+                <li>Familiar spreadsheet interface</li>
+                <li>Mobile app available</li>
+            </ul>
+            <p><strong>Limitations:</strong></p>
+            <ul>
+                <li>Manual updates required</li>
+                <li>Limited automation</li>
+                <li>Can become unwieldy at scale</li>
+            </ul>
+        </div>
+        
+        <div class="tool-card">
+            <h4>Microsoft Excel/365</h4>
+            <p><strong>Best for:</strong> Businesses already using Microsoft products</p>
+            <p><strong>Advantages:</strong></p>
+            <ul>
+                <li>Powerful analysis capabilities</li>
+                <li>Works offline (desktop version)</li>
+                <li>More features than Google Sheets</li>
+                <li>Cloud sync with 365 subscription</li>
+            </ul>
+            <p><strong>Limitations:</strong></p>
+            <ul>
+                <li>Cost: ~$6/user/month for 365</li>
+                <li>Less intuitive collaboration</li>
+                <li>Mobile experience not as smooth</li>
+            </ul>
+        </div>
+        
+        <div class="tool-card">
+            <h4>Dedicated CRM (Various)</h4>
+            <p><strong>Best for:</strong> Growing businesses with complex supplier networks</p>
+            <p><strong>Options:</strong></p>
+            <ul>
+                <li>HubSpot Free CRM</li>
+                <li>Zoho CRM</li>
+                <li>Bitrix24 (Free up to 12 users)</li>
+            </ul>
+            <p><strong>Advantages:</strong></p>
+            <ul>
+                <li>Purpose-built for relationships</li>
+                <li>Better for large supplier networks</li>
+                <li>More automation capabilities</li>
+                <li>Communication features included</li>
+            </ul>
+            <p><strong>Limitations:</strong></p>
+            <ul>
+                <li>Steeper learning curve</li>
+                <li>Cost increases with scale</li>
+                <li>May have unnecessary features</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="warning">
+        <h4>Important Decision Factor</h4>
+        <p>Consider your growth trajectory: If you expect to manage 50+ suppliers within a year, starting with a CRM may save you from a painful transition later. For smaller operations, Google Sheets provides the best balance of functionality and simplicity.</p>
+    </div>
+
+    <h2 id="setup">3. Setting Up Your System (Google Sheets Option)</h2>
+    
+    <h3>A. Creating Your Supplier Management Template</h3>
+    <p>We'll create a comprehensive Google Sheets system with these components:</p>
+    
+    <div class="process-steps">
+        <div class="process-step">
+            <div class="step-number">1</div>
+            <strong>Main Supplier Database</strong>
+            <p>Complete information on all suppliers</p>
+        </div>
+        <div class="process-step">
+            <div class="step-number">2</div>
+            <strong>Transaction Tracker</strong>
+            <p>Record of orders, deliveries, and payments</p>
+        </div>
+        <div class="process-step">
+            <div class="step-number">3</div>
+            <strong>Quality Scorecard</strong>
+            <p>Supplier performance metrics</p>
+        </div>
+        <div class="process-step">
+            <div class="step-number">4</div>
+            <strong>Contact Log</strong>
+            <p>History of communications</p>
+        </div>
+        <div class="process-step">
+            <div class="step-number">5</div>
+            <strong>Dashboard</strong>
+            <p>Key metrics at a glance</p>
+        </div>
+    </div>
+    
+    <h3>B. Supplier Database Tab Setup</h3>
+    <p>Essential fields to include:</p>
+    <ul>
+        <li>Supplier ID (unique identifier)</li>
+        <li>Business name</li>
+        <li>Primary contact person</li>
+        <li>Phone number(s)</li>
+        <li>WhatsApp (if different)</li>
+        <li>Email address</li>
+        <li>Physical location/address</li>
+        <li>Product categories supplied</li>
+        <li>Payment terms</li>
+        <li>Preferred payment method (Mobile Money, bank transfer, cash)</li>
+        <li>Date relationship began</li>
+        <li>Notes field</li>
+    </ul>
+    
+    <h3>C. Transaction Tracker Tab Setup</h3>
+    <p>For each transaction, track:</p>
+    <ul>
+        <li>Transaction ID</li>
+        <li>Supplier ID (linked to database)</li>
+        <li>Date ordered</li>
+        <li>Date delivered</li>
+        <li>Items/materials ordered (with quantities)</li>
+        <li>Price agreed</li>
+        <li>Quality rating (1-5 scale)</li>
+        <li>Payment date</li>
+        <li>Payment amount</li>
+        <li>Payment reference/receipt number</li>
+        <li>Delivery issues (if any)</li>
+    </ul>
+
+    <h3>D. Simple Formulas for Automatic Insights</h3>
+    <p>We'll set up these calculations to provide automatic insights:</p>
+    <ul>
+        <li>Average delivery time per supplier</li>
+        <li>Average quality rating per supplier</li>
+        <li>Total spend per supplier</li>
+        <li>Price trends over time</li>
+        <li>Days since last order</li>
+    </ul>
+
+    <h2 id="mobile">4. Mobile Optimization</h2>
+    
+    <h3>A. Setting Up Mobile Access</h3>
+    <p>Make your system accessible on smartphones with these steps:</p>
+    <ol>
+        <li>Install the Google Sheets app on your smartphone</li>
+        <li>Set up offline access for your supplier sheets</li>
+        <li>Create a homescreen shortcut for instant access:
+            <ul>
+                <li><strong>Android</strong>: Open the sheet in the app > Menu > Add to Home screen</li>
+                <li><strong>iOS</strong>: Open in Safari > Share icon > Add to Home Screen</li>
+            </ul>
+        </li>
+        <li>Enable notifications for important changes</li>
+    </ol>
+    
+    <h3>B. Creating Mobile-Friendly Data Entry Forms</h3>
+    <p>Use Google Forms connected to your sheets for easier mobile data entry:</p>
+    <ol>
+        <li>Create a "New Supplier" form</li>
+        <li>Create a "New Transaction" form</li>
+        <li>Create a "Quality Assessment" form</li>
+        <li>Link all forms to automatically update your main sheets</li>
+        <li>Bookmark forms on team members' phones</li>
+    </ol>
+
+    <div class="callout">
+        <h4>Practical Tip</h4>
+        <p>When in the field with poor connectivity, use a note-taking app to record information, then transfer it to your system when you have better internet access.</p>
+    </div>
+
+    <h2 id="implementation">5. Implementation and Training</h2>
+    
+    <h3>A. Data Migration Plan</h3>
+    <p>Moving from existing systems (paper or digital):</p>
+    <ol>
+        <li>Start with current/active suppliers only</li>
+        <li>Prioritize essential fields first</li>
+        <li>Set aside dedicated time for data entry</li>
+        <li>Verify data accuracy with suppliers</li>
+        <li>Add historical transaction data as time permits</li>
+    </ol>
+    
+    <h3>B. Training Your Team</h3>
+    <p>Ensure successful adoption with these training elements:</p>
+    <ul>
+        <li>Initial walkthrough session (1-2 hours)</li>
+        <li>Hands-on practice with sample data</li>
+        <li>Clear documentation with screenshots</li>
+        <li>Assign a system champion to support others</li>
+        <li>Regular check-ins during the first month</li>
+    </ul>
+    
+    <h3>C. Data Maintenance Schedule</h3>
+    <p>Establish these routines to keep your system valuable:</p>
+    <ul>
+        <li><strong>Daily</strong>: Record all new transactions</li>
+        <li><strong>Weekly</strong>: Update supplier status changes, verify recent entries</li>
+        <li><strong>Monthly</strong>: Review performance metrics, clean up any data issues</li>
+        <li><strong>Quarterly</strong>: Full supplier database review and cleanup</li>
+    </ul>
+
+    <h2 id="decisions">6. Making Data-Driven Decisions</h2>
+    
+    <h3>A. Daily Operational Decisions</h3>
+    <p>Use your system to inform:</p>
+    <ul>
+        <li>Which suppliers to contact for upcoming orders</li>
+        <li>How much stock to order based on historical performance</li>
+        <li>When to follow up on pending deliveries</li>
+        <li>Which payment commitments are due</li>
+    </ul>
+    
+    <h3>B. Strategic Supplier Management</h3>
+    <p>Monthly and quarterly analysis for:</p>
+    <ul>
+        <li>Identifying your most reliable suppliers</li>
+        <li>Recognizing concerning trends in quality or delivery</li>
+        <li>Planning for seasonal variations</li>
+        <li>Diversifying your supplier base in critical categories</li>
+        <li>Negotiating better terms with data-backed insights</li>
+    </ul>
+
+    <div class="decision-guide">
+        <h4>Decision Framework: When to Consider Alternative Suppliers</h4>
+        <p>Your supplier tracking system will highlight when to consider changes:</p>
+        <ul>
+            <li>Quality ratings drop below 3/5 for three consecutive deliveries</li>
+            <li>Delivery times exceed industry average by 50% or more</li>
+            <li>Price increases exceed 15% without corresponding market changes</li>
+            <li>Communication responsiveness declines significantly</li>
+        </ul>
+    </div>
+
+    <h3>C. Relationship Management</h3>
+    <p>Use your data to strengthen supplier relationships:</p>
+    <ul>
+        <li>Recognize and reward consistent high performers</li>
+        <li>Provide specific feedback for improvement areas</li>
+        <li>Plan regular check-ins with strategic suppliers</li>
+        <li>Share relevant market insights that benefit both parties</li>
+    </ul>
+
+    <div class="callout">
+        <h4>Cultural Context Tip</h4>
+        <p>In West African business environments, personal relationships remain crucial. Schedule face-to-face meetings with key suppliers periodically, not just digital communications. Your data system supports—but doesn't replace—relationship building.</p>
+    </div>
+
+    <h2>7. Connection to Future Digital Operations</h2>
+    
+    <p>This supplier management foundation enables these upcoming components:</p>
+    <ul>
+        <li><strong>Microsoft Power Automate + WhatsApp Business</strong> - Automate supplier communications using your database</li>
+        <li><strong>SMS Updates with Africa's Talking API</strong> - Send automated updates based on your supplier data</li>
+        <li><strong>Quality Control Tracking</strong> - Build on your supplier ratings for comprehensive quality management</li>
+        <li><strong>Payment System Integration</strong> - Connect mobile money systems to your supplier database</li>
+        <li><strong>Supplier Dashboards</strong> - Visualize your supplier data for better decision-making</li>
+    </ul>
+    
+    <div class="warning">
+        <h4>Preparation for Next Steps</h4>
+        <p>To ensure a smooth transition to these advanced features, focus on data quality and consistency now. Clean, structured supplier data is the foundation for all future digital operations.</p>
+    </div>
+
+    <h2 id="kpis">8. Key Performance Indicators (KPIs)</h2>
+    
+    <p>Track these metrics to measure your supplier management effectiveness:</p>
+    
+    <div class="kpi-grid">
+        <div class="kpi-card">
+            <div class="kpi-title">On-Time Delivery Rate</div>
+            <p>% of deliveries received when expected</p>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-title">Quality Consistency Score</div>
+            <p>Standard deviation of quality ratings</p>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-title">Price Stability Index</div>
+            <p>% variation in prices over time</p>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-title">Supplier Response Time</div>
+            <p>Hours/days from inquiry to response</p>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-title">Order Accuracy Rate</div>
+            <p>% of orders fulfilled correctly</p>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-title">Supplier Diversification Ratio</div>
+            <p>% of total spend with top 3 suppliers</p>
+        </div>
+    </div>
+
+    <div class="callout">
+        <p>Set baseline measurements for these KPIs in your first month, then track improvements over time as you optimize your supplier relationships.</p>
+    </div>
+
+    <h2>Implementation Checklist</h2>
+    
+    <div class="process-steps">
+        <div class="process-step">
+            <div class="step-number">1</div>
+            <p>Choose your digital tool</p>
+        </div>
+        <div class="process-step">
+            <div class="step-number">2</div>
+            <p>Set up supplier database</p>
+        </div>
+        <div class="process-step">
+            <div class="step-number">3</div>
+            <p>Create transaction tracking</p>
+        </div>
+        <div class="process-step">
+            <div class="step-number">4</div>
+            <p>Configure mobile access</p>
+        </div>
+    </div>
+    
+    <div class="process-steps">
+        <div class="process-step">
+            <div class="step-number">5</div>
+            <p>Import existing data</p>
+        </div>
+        <div class="process-step">
+            <div class="step-number">6</div>
+            <p>Train your team</p>
+        </div>
+        <div class="process-step">
+            <div class="step-number">7</div>
+            <p>Establish maintenance schedule</p>
+        </div>
+        <div class="process-step">
+            <div class="step-number">8</div>
+            <p>Start tracking KPIs</p>
+        </div>
+    </div>
+
+    <div class="intro-box">
+        <h3>Next Steps</h3>
+        <p>Once your supplier management foundation is established, move on to the next tutorial: "Using Microsoft Power Automate to Connect WhatsApp Business with Google Sheets" to begin automating your supplier communications.</p>
+    </div>
+    
+    <script>
+        // Simple script to highlight active section in the sticky nav as user scrolls
+        window.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('h2');
+            const navLinks = document.querySelectorAll('.sticky-nav a');
+            
+            window.addEventListener('scroll', () => {
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if(pageYOffset >= (sectionTop - 100)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if(link.getAttribute('href').slice(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
